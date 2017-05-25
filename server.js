@@ -1,13 +1,24 @@
 var express = require('express'),
   app = express(),
-  port = process.env.PORT || 3001,
+  port = process.env.PORT || 3100,
   mongoose = require('mongoose'),
-  Task = require('./api/models/cmsModel'),
   bodyParser = require('body-parser');
   
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/Tododb'); 
+mongoose.connect('mongodb://localhost/testdb', function(error) {
+    if (error) {
+        console.log('db connect error');
+    }
+});
 
+var db = mongoose.connection;
+ 
+db.on('error', function (err) {
+console.log('connection error', err);
+});
+db.once('open', function () {
+console.log('connected.');
+});
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -20,4 +31,4 @@ routes(app);
 app.listen(port);
 
 
-console.log('todo list RESTful API server started on: ' + port);
+console.log('RESTful API server started on: ' + port);
