@@ -5,7 +5,7 @@ var express = require('express'),
   bodyParser = require('body-parser');
   
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/testdb', function(error) {
+mongoose.connect('mongodb://localhost/CMS', function(error) {
     if (error) {
         console.log('db connect error');
     }

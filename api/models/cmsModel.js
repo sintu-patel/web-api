@@ -2,10 +2,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var userSchema = new Schema({
-    q: String,
-    a: String
+var cmsSchema = new Schema({
+    issue: String,
+    resolution: String
 });
-var User = mongoose.model('tabs', userSchema);
+var cmsContent = mongoose.model('contentlist', cmsSchema);
 
-module.exports = User;
+module.exports = cmsContent;
