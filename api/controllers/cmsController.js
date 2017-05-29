@@ -20,12 +20,15 @@ exports.readData = function(req, res) {
 };
 
 exports.saveData = function(req, res) {
+  var query = req.query;
   var cmsData = new cmsContent({
-    issue: "What are the basic steps to unit test an AngularJS filter?",
-    resolution: "Dependency injection is a powerful software design pattern that Angular employs to compose responsibilities through an intrinsic interface. However, for those new to the process, it can be puzzling where you need to configure and mock these dependencies when creating your isolated unit tests. The open-source project “Angular Test Patterns” is a free resource that is focused on dispelling such confusion through high-quality examples."
+    issue: query.issue,
+    resolution: query.resolution
   });
   cmsData.save(function(err) {
-    if ( err ) throw err;
-    console.log("Saved Successfully");
+    if ( err ) { 
+      console.log(err);
+    }
+    res.json({status: 'completed'});
   });
 };
