@@ -6,6 +6,11 @@ var cmsSchema = new Schema({
     issue: String,
     resolution: String
 });
-var cmsContent = mongoose.model('contentlist', cmsSchema);
+var cmsContent = mongoose.model('issuelist', cmsSchema);
 
-module.exports = cmsContent;
+var cmsFileSchema = new Schema({
+    fileName: String,
+    uploadDate: String
+});
+var cmsFiles = mongoose.model('cmsfiles', cmsFileSchema);
+module.exports = { cmsContent, cmsFiles };

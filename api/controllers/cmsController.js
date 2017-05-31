@@ -1,8 +1,10 @@
 'use strict';
 var mongoose = require('mongoose');
-var cmsContent = require('../models/cmsModel');
+var cmsContent = require('../models/cmsModel').cmsContent;
+var cmsFiles = require('../models/cmsModel').cmsFiles;
 var formidable = require('formidable');
 var fs = require('fs');
+var node_xj = require("xls-to-json");
 
 exports.readData = function(req, res) {
   cmsContent.find({}, function(err, data) {
@@ -10,9 +12,6 @@ exports.readData = function(req, res) {
       res.json({status: 'error while getting data'});
     }
     var tab = {
-      "linksHeading": "All information from api",
-      "heading": "Information tracking from api",
-      "categoriesHeading": "Information Categories from api",
       "data": data
     };
     res.json(tab);
@@ -45,7 +44,17 @@ exports.uploadCMS = function(req, res) {
     var dest = fs.createWriteStream(fileUploadPath);
     source.pipe(dest);
     source.on('end', function() {
-      res.json({'status': 'uploaded'});
+      var currentDate = new Date();
+      var cmsFile = new cmsFiles({
+        fileName: fileName,
+        uploadDate: currentDate
+      });
+      cmsFile.save(function(err) {
+        if ( err ) { 
+          res.json({'status': 'uploaded-not-saved'});
+        }
+        res.json({'status': 'uploaded-saved'});
+      });
     });
     source.on('error', function() {
       res.json({'status': 'not-uploaded'});
@@ -54,6 +63,25 @@ exports.uploadCMS = function(req, res) {
 }
 
 exports.readFineList = function(req, res) {
-  var file = 'upload file';
-  res.json({data: file});
+  var uploadDirectory = 'uploads\\';
+  cmsFiles.find({}, function(err, data) {
+    if (err) {
+      res.json({status: 'error while getting data'});
+    } else {
+      console.log(data);
+      var file = data && data[data.length - 1];
+      var filePath = uploadDirectory + file.fileName;
+      node_xj({
+        input: filePath,
+        output: null,
+        sheet: "Sheet1"
+      }, function(err, result) {
+        if(err) {
+          console.error(err);
+        } else {
+          res.json({"fileData": result});
+        }
+      });
+    }
+  });
 }
