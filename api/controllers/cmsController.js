@@ -35,20 +35,25 @@ exports.saveData = function(req, res) {
 
 exports.uploadCMS = function(req, res) {
   var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-      var fileData = files.uploads;
-      var fileName = fileData.name;
-      var filePath = fileData.path;
-      var uploadedFilePath = filePath;
-      var fileUploadPath = 'uploads\\' + fileName;
-      var source = fs.createReadStream(uploadedFilePath);
-      var dest = fs.createWriteStream(fileUploadPath);
-      source.pipe(dest);
-      source.on('end', function() {
-        res.json({'status': 'uploaded'});
-      });
-      source.on('error', function() {
-        res.json({'status': 'not-uploaded'});
-      });
+  form.parse(req, function (err, fields, files) {
+    var fileData = files.uploads;
+    var fileName = fileData.name;
+    var filePath = fileData.path;
+    var uploadedFilePath = filePath;
+    var fileUploadPath = 'uploads\\' + fileName;
+    var source = fs.createReadStream(uploadedFilePath);
+    var dest = fs.createWriteStream(fileUploadPath);
+    source.pipe(dest);
+    source.on('end', function() {
+      res.json({'status': 'uploaded'});
     });
+    source.on('error', function() {
+      res.json({'status': 'not-uploaded'});
+    });
+  });
+}
+
+exports.readFineList = function(req, res) {
+  var file = 'upload file';
+  res.json({data: file});
 }

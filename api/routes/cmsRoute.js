@@ -4,4 +4,5 @@ module.exports = function(app) {
   app.route('/cms').get(cmsController.readData);
   app.route('/savecms').post(cmsController.saveData);
   app.route('/uploadcms').post(cmsController.uploadCMS);
+  app.route('/cmsfinelist').get(cmsController.readFineList);
 }
