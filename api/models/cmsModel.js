@@ -6,7 +6,7 @@ var cmsSchema = new Schema({
     issue: String,
     resolution: String
 });
-var cmsContent = mongoose.model('issuelist', cmsSchema);
+var cmsContent = mongoose.model('issues', cmsSchema);
 
 var cmsFileSchema = new Schema({
     fileName: String,
@@ -22,6 +22,6 @@ var cmsFileDataSchema = new Schema({
     collectedfine: String
 });
 
-var cmsFileData = mongoose.model('cmsfiledata', cmsFileDataSchema);
+var cmsFileData = mongoose.model('cmsfiledatav2', cmsFileDataSchema);
 
 module.exports = { cmsContent, cmsFiles, cmsFileData };

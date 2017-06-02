@@ -35,22 +35,34 @@ exports.saveData = function(req, res) {
 
 exports.saveFileData = function(req, res) {
   var data = req.body;
-  var cmsFileDataObj;
   var i;
   for (i = 0; i < data.length; i++) {
-    cmsFileDataObj = new cmsFileData({
-      name: data[i].name,
-      fine: data[i].fine,
-      currency: data[i].currency,
-      collectedfine: data[i].collectedfine
-    });
-    const query = { _id: data[i]._id };
-    cmsFileDataObj.save(query, function(err) {
-      if ( err ) { 
-        console.log('file-data-not-saved');
-      }
-      console.log('file-data-saved')
-    });
+    let isDeleted = data[i].isDeleted && data[i].isDeleted === 'deleted';
+    let oldData = data[i]._id;
+    if (oldData && isDeleted) {
+      cmsFileData.remove({ _id: data[i]._id }).exec();
+    }
+    if (oldData && !isDeleted) {
+      let query = { _id: data[i]._id };
+      let updatedData = {
+        _id: data[i]._id,
+        name: data[i].name,
+        fine: data[i].fine,
+        currency: data[i].currency,
+        collectedfine: data[i].collectedfine
+      };
+      cmsFileData.update(query, updatedData).exec();
+    }
+
+    if (!oldData && !isDeleted) {
+      let dataObj = new cmsFileData({
+        name: data[i].name,
+        fine: data[i].fine,
+        currency: data[i].currency,
+        collectedfine: data[i].collectedfine
+      });
+      dataObj.save();
+    }
   }
   res.json({
     status: 'file-data-saved'
