@@ -2,6 +2,7 @@
 var mongoose = require('mongoose');
 var cmsContent = require('../models/cmsModel').cmsContent;
 var cmsFiles = require('../models/cmsModel').cmsFiles;
+var cmsFileData = require('../models/cmsModel').cmsFileData;
 var formidable = require('formidable');
 var fs = require('fs');
 var node_xj = require("xls-to-json");
@@ -31,6 +32,30 @@ exports.saveData = function(req, res) {
     res.json({status: 'data-saved'});
   });
 };
+
+exports.saveFileData = function(req, res) {
+  var data = req.body;
+  var cmsFileDataObj;
+  var i;
+  for (i = 0; i < data.length; i++) {
+    cmsFileDataObj = new cmsFileData({
+      name: data[i].name,
+      fine: data[i].fine,
+      currency: data[i].currency,
+      collectedfine: data[i].collectedfine
+    });
+    const query = { _id: data[i]._id };
+    cmsFileDataObj.save(query, function(err) {
+      if ( err ) { 
+        console.log('file-data-not-saved');
+      }
+      console.log('file-data-saved')
+    });
+  }
+  res.json({
+    status: 'file-data-saved'
+  });
+}
 
 exports.uploadCMS = function(req, res) {
   var form = new formidable.IncomingForm();
@@ -62,13 +87,12 @@ exports.uploadCMS = function(req, res) {
   });
 }
 
-exports.readFineList = function(req, res) {
+exports.readFineListFromFile = function(req, res) {
   var uploadDirectory = 'uploads\\';
   cmsFiles.find({}, function(err, data) {
     if (err) {
       res.json({status: 'error while getting data'});
     } else {
-      console.log(data);
       var file = data && data[data.length - 1];
       var filePath = uploadDirectory + file.fileName;
       node_xj({
@@ -83,5 +107,17 @@ exports.readFineList = function(req, res) {
         }
       });
     }
+  });
+}
+
+exports.readFineListFromDb = function(req, res) {
+  cmsFileData.find({}, function(err, data) {
+    if (err) {
+      res.json({status: 'error while getting data'});
+    }
+    var tab = {
+      "fileData": data
+    };
+    res.json(tab);
   });
 }

@@ -12,5 +12,16 @@ var cmsFileSchema = new Schema({
     fileName: String,
     uploadDate: String
 });
+
 var cmsFiles = mongoose.model('cmsfiles', cmsFileSchema);
-module.exports = { cmsContent, cmsFiles };
+
+var cmsFileDataSchema = new Schema({
+    name: String,
+    fine: String,
+    currency: String,
+    collectedfine: String
+});
+
+var cmsFileData = mongoose.model('cmsfiledata', cmsFileDataSchema);
+
+module.exports = { cmsContent, cmsFiles, cmsFileData };
