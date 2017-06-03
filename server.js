@@ -4,6 +4,8 @@ var express = require('express'),
   mongoose = require('mongoose'),
   bodyParser = require('body-parser');
 
+var apiConfig = require('./api-config');
+
 app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
     res.header("Access-Control-Allow-Origin", "*");
@@ -13,7 +15,7 @@ app.use(function(req, res, next) {
 });
   
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/CMS', function(error) {
+mongoose.connect(apiConfig.dbPath, function(error) {
     if (error) {
         console.log('db connect error');
     }
