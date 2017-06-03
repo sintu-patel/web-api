@@ -25,4 +25,16 @@ var cmsFileDataSchema = new Schema({
 
 var cmsFileData = mongoose.model('cmsfiledatav3', cmsFileDataSchema);
 
-module.exports = { cmsContent, cmsFiles, cmsFileData };
+var cmsLLPSchema = new Schema({
+    empid: String,
+    name: String,
+    monday: String,
+    tuesday: String,
+    wednesday: String,
+    thursday: String,
+    friday: String
+});
+
+var cmsLLPData = mongoose.model('cmsllpdata', cmsLLPSchema);
+
+module.exports = { cmsContent, cmsFiles, cmsFileData, cmsLLPData };

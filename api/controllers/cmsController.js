@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var cmsContent = require('../models/cmsModel').cmsContent;
 var cmsFiles = require('../models/cmsModel').cmsFiles;
 var cmsFileData = require('../models/cmsModel').cmsFileData;
+var cmsLLPData = require('../models/cmsModel').cmsLLPData;
 var formidable = require('formidable');
 var fs = require('fs');
 var node_xj = require("xls-to-json");
@@ -121,6 +122,66 @@ var readDataFromFile = function(filePath, req, res) {
 
 exports.readFineListFromDb = function(req, res) {
   cmsFileData.find({}, function(err, data) {
+    if (err) {
+      res.json({status: 'error while getting data'});
+    }
+    var tab = {
+      "fileData": data
+    };
+    res.json(tab);
+  });
+}
+
+var saveLLPDataToDb = function(data) {
+  var i;
+  for (i = 0; i < data.length; i++) {
+    let isDeleted = data[i].isDeleted && data[i].isDeleted === 'deleted';
+    let oldData = data[i]._id;
+    // delete the collection
+    if (oldData && isDeleted) {
+      cmsLLPData.remove({ _id: data[i]._id }).exec();
+    }
+    // update the collection
+    if (oldData && !isDeleted) {
+      let query = { _id: data[i]._id };
+      let updatedData = {
+        _id: data[i]._id,
+        empid: data[i].empid,
+        name: data[i].name,
+        monday: data[i].monday,
+        tuesday: data[i].tuesday,
+        wednesday: data[i].wednesday,
+        thursday: data[i].thursday,
+        friday: data[i].friday
+      };
+      cmsLLPData.update(query, updatedData).exec();
+    }
+    // add new collection
+    if (!oldData && !isDeleted) {
+      let dataObj = new cmsLLPData({
+        empid: data[i].empid,
+        name: data[i].name,
+        monday: data[i].monday,
+        tuesday: data[i].tuesday,
+        wednesday: data[i].wednesday,
+        thursday: data[i].thursday,
+        friday: data[i].friday
+      });
+      dataObj.save();
+    }
+  }
+}
+
+exports.saveLLPData = function(req, res) {
+  var data = req.body;
+  saveLLPDataToDb(data);
+  res.json({
+    status: 'update-data-saved'
+  });
+}
+
+exports.readLLPFromDb = function(req, res) {
+  cmsLLPData.find({}, function(err, data) {
     if (err) {
       res.json({status: 'error while getting data'});
     }
