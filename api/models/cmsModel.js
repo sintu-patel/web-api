@@ -16,12 +16,13 @@ var cmsFileSchema = new Schema({
 var cmsFiles = mongoose.model('cmsfiles', cmsFileSchema);
 
 var cmsFileDataSchema = new Schema({
+    empid: String,
     name: String,
     fine: String,
     currency: String,
     collectedfine: String
 });
 
-var cmsFileData = mongoose.model('cmsfiledatav2', cmsFileDataSchema);
+var cmsFileData = mongoose.model('cmsfiledatav3', cmsFileDataSchema);
 
 module.exports = { cmsContent, cmsFiles, cmsFileData };
