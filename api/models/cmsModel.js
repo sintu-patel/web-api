@@ -6,7 +6,7 @@ var cmsSchema = new Schema({
     issue: String,
     resolution: String
 });
-var cmsContent = mongoose.model('issues', cmsSchema);
+var cmsContent = mongoose.model('issuesv1', cmsSchema);
 
 var cmsFileSchema = new Schema({
     fileName: String,
