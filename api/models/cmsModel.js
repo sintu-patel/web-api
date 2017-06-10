@@ -25,6 +25,12 @@ var cmsFileDataSchema = new Schema({
 
 var cmsFileData = mongoose.model('cmsfiledatav3', cmsFileDataSchema);
 
+var cmsFileArraySchema = new Schema({
+    fileData: [cmsFileDataSchema]
+});
+
+var cmsFileDataArray = mongoose.model('cmsfiledatav9', cmsFileArraySchema);
+
 var cmsLLPSchema = new Schema({
     empid: String,
     name: String,
@@ -37,4 +43,4 @@ var cmsLLPSchema = new Schema({
 
 var cmsLLPData = mongoose.model('cmsllpdata', cmsLLPSchema);
 
-module.exports = { cmsContent, cmsFiles, cmsFileData, cmsLLPData };
+module.exports = { cmsContent, cmsFiles, cmsFileData, cmsLLPData, cmsFileDataArray };

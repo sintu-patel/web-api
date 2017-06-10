@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var cmsContent = require('../models/cmsModel').cmsContent;
 var cmsFiles = require('../models/cmsModel').cmsFiles;
-var cmsFileData = require('../models/cmsModel').cmsFileData;
+var cmsFileDataArray = require('../models/cmsModel').cmsFileDataArray;
 var cmsLLPData = require('../models/cmsModel').cmsLLPData;
 var formidable = require('formidable');
 var fs = require('fs');
@@ -35,50 +35,40 @@ exports.saveData = function(req, res) {
 };
 
 var saveFileDataToDb = function(data) {
-  var i;
-  for (i = 0; i < data.length; i++) {
-    let isDeleted = data[i].isDeleted && data[i].isDeleted === 'deleted';
-    let oldData = data[i]._id;
-    // delete the collection
-    if (oldData && isDeleted) {
-      cmsFileData.remove({ _id: data[i]._id }).exec();
-    }
-    // update the collection
-    if (oldData && !isDeleted) {
-      let query = { _id: data[i]._id };
-      let updatedData = {
-        _id: data[i]._id,
-        empid: data[i].empid,
-        name: data[i].name,
-        fine: data[i].fine,
-        currency: data[i].currency,
-        collectedfine: data[i].collectedfine
-      };
-      cmsFileData.update(query, updatedData).exec();
-    }
-    // add new collection
-    if (!oldData && !isDeleted) {
-      let dataObj = new cmsFileData({
-        name: data[i].name,
-        empid: data[i].empid,
-        fine: data[i].fine,
-        currency: data[i].currency,
-        collectedfine: data[i].collectedfine
-      });
-      dataObj.save();
-    }
-  }
+  let dataObj = new cmsFileDataArray({
+    fileData: data
+  });
+  dataObj.save();
+}
+
+var updateFileDataToDb = function(data) {
+  const rowData = data.rowData;
+  const rowNumber = data.rowNumber;
+  const fileNumber = data.fileNumber;
+  const actionType = data.dataType;
+  const fileId = data.fileId;
+  let query = { "_id": fileId, 'fileData._id': rowData._id};
+  let updatedData = {
+    'fileData.$._id': rowData._id,
+    'fileData.$.empid': rowData.empid,
+    'fileData.$.name': rowData.name,
+    'fileData.$.fine': rowData.fine,
+    'fileData.$.currency': rowData.currency,
+    'fileData.$.collectedfine': rowData.collectedfine
+  };
+  const updateQuery = {$set : updatedData};
+  cmsFileDataArray.update(query, updateQuery).exec();
 }
 
 exports.saveFileData = function(req, res) {
   var data = req.body;
-  saveFileDataToDb(data);
+  updateFileDataToDb(data);
   res.json({
     status: 'update-data-saved'
   });
 }
 
-var saveFileData = function(req, res, result) {
+var saveFileDataFromXLS = function(req, res, result) {
   var data = result;
   saveFileDataToDb(data);
   res.json({
@@ -115,18 +105,18 @@ var readDataFromFile = function(filePath, req, res) {
     if(err) {
       console.error(err);
     } else {
-      saveFileData(req, res, result);
+      saveFileDataFromXLS(req, res, result);
     }
   });
 }
 
 exports.readFineListFromDb = function(req, res) {
-  cmsFileData.find({}, function(err, data) {
+  cmsFileDataArray.find({}, function(err, data) {
     if (err) {
       res.json({status: 'error while getting data'});
     }
     var tab = {
-      "fileData": data
+      "files": data
     };
     res.json(tab);
   });
