@@ -45,19 +45,34 @@ var updateFileDataToDb = function(data) {
   const rowData = data.rowData;
   const rowNumber = data.rowNumber;
   const fileNumber = data.fileNumber;
-  const actionType = data.dataType;
+  const dbAction = data.dbAction;
   const fileId = data.fileId;
-  let query = { "_id": fileId, 'fileData._id': rowData._id};
-  let updatedData = {
-    'fileData.$._id': rowData._id,
-    'fileData.$.empid': rowData.empid,
-    'fileData.$.name': rowData.name,
-    'fileData.$.fine': rowData.fine,
-    'fileData.$.currency': rowData.currency,
-    'fileData.$.collectedfine': rowData.collectedfine
-  };
-  const updateQuery = {$set : updatedData};
-  cmsFileDataArray.update(query, updateQuery).exec();
+  if (dbAction === 'update-row') {
+    let query = { "_id": fileId, 'fileData._id': rowData._id};
+    let updatedData = {
+      'fileData.$._id': rowData._id,
+      'fileData.$.empid': rowData.empid,
+      'fileData.$.name': rowData.name,
+      'fileData.$.fine': rowData.fine,
+      'fileData.$.currency': rowData.currency,
+      'fileData.$.collectedfine': rowData.collectedfine,
+      'fileData.$.isDeleted': rowData.isDeleted
+    };
+    let updateQuery = {$set : updatedData};
+    cmsFileDataArray.update(query, updateQuery).exec();
+  }
+  if (dbAction === 'add-row') {
+    let query = { "_id": fileId};
+    let updatedData = {
+      empid: 'test',
+      name: rowData.name,
+      fine: rowData.fine,
+      currency: rowData.currency,
+      collectedfine: rowData.collectedfine
+    };
+    let updateQuery = {$push : {fileData: updatedData}};
+    cmsFileDataArray.update(query, updateQuery).exec();
+  }
 }
 
 exports.saveFileData = function(req, res) {

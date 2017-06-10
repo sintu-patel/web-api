@@ -20,7 +20,8 @@ var cmsFileDataSchema = new Schema({
     name: String,
     fine: String,
     currency: String,
-    collectedfine: String
+    collectedfine: String,
+    isDeleted: String
 });
 
 var cmsFileData = mongoose.model('cmsfiledatav3', cmsFileDataSchema);
@@ -29,7 +30,7 @@ var cmsFileArraySchema = new Schema({
     fileData: [cmsFileDataSchema]
 });
 
-var cmsFileDataArray = mongoose.model('cmsfiledatav9', cmsFileArraySchema);
+var cmsFileDataArray = mongoose.model('cmsfiledatav11', cmsFileArraySchema);
 
 var cmsLLPSchema = new Schema({
     empid: String,
