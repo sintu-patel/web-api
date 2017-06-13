@@ -35,8 +35,10 @@ exports.saveData = function(req, res) {
 };
 
 var saveFileDataToDb = function(data) {
+  const date = new Date();
   let dataObj = new cmsFileDataArray({
-    fileData: data
+    fileData: data,
+    llpCloseDate: date
   });
   dataObj.save();
 }

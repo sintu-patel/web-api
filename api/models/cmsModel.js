@@ -24,13 +24,12 @@ var cmsFileDataSchema = new Schema({
     isDeleted: String
 });
 
-var cmsFileData = mongoose.model('cmsfiledatav3', cmsFileDataSchema);
-
 var cmsFileArraySchema = new Schema({
-    fileData: [cmsFileDataSchema]
+    fileData: [cmsFileDataSchema],
+    llpCloseDate: String
 });
 
-var cmsFileDataArray = mongoose.model('cmsfiledatav11', cmsFileArraySchema);
+var cmsFileDataArray = mongoose.model('finelistv1', cmsFileArraySchema);
 
 var cmsLLPSchema = new Schema({
     empid: String,
@@ -44,4 +43,4 @@ var cmsLLPSchema = new Schema({
 
 var cmsLLPData = mongoose.model('cmsllpdata', cmsLLPSchema);
 
-module.exports = { cmsContent, cmsFiles, cmsFileData, cmsLLPData, cmsFileDataArray };
+module.exports = { cmsContent, cmsFiles, cmsLLPData, cmsFileDataArray };
