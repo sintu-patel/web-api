@@ -1,6 +1,7 @@
 'use strict';
 module.exports = function(app) {
   var cmsController = require('../controllers/cmsController');
+  var issueController = require('../controllers/issuesController');
   app.route('/cms').get(cmsController.readData);
   app.route('/savecms').post(cmsController.saveData);
   app.route('/savefiledata').post(cmsController.saveFileData);
@@ -9,4 +10,7 @@ module.exports = function(app) {
   app.route('/cmscorrectfinelist').get(cmsController.readFineListFromDb);
   app.route('/savellp').post(cmsController.saveLLPData);
   app.route('/getllpdata').get(cmsController.readLLPFromDb);
+  app.route('/getissuesdata').get(issueController.readData);
+  app.route('/saveissuesdata').post(issueController.saveData);
+  app.route('/updateissuesdata').post(issueController.updateData);
 }
