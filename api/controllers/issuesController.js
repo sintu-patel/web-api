@@ -3,22 +3,15 @@ var mongoose = require('mongoose');
 var cmsIssuesData = require('../models/cmsIssuesModel').cmsIssuesData;
 
 exports.readData = function(req, res) {
-  const issuesQuery = {issueType: 'issues-risk'};
-  const nextStepQuery = {issueType: 'next-step'};
-  cmsIssuesData.find(issuesQuery, function(err, data) {
+  const query = {};
+  cmsIssuesData.find(query, function(err, data) {
     if (err) {
       res.json({status: 'error while getting issues data'});
     }
     var tab = {
-      "issuesData": data
+      "pageData": data
     };
-    cmsIssuesData.find(nextStepQuery, function(err, nextStepdata) {
-      if (err) {
-        res.json({status: 'error while getting next step data'});
-      }
-      tab.nextStepsData = nextStepdata;
-      res.json(tab);
-    });
+    res.json(tab);
   });
 };
 
