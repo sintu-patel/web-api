@@ -10,6 +10,6 @@ var cmsIssueSchema = new Schema({
     owner: String,
     isResolved: String
 });
-var cmsIssuesData = mongoose.model('cmsissuestest', cmsIssueSchema);
+var cmsIssuesData = mongoose.model('cmsissuesrisknextstep', cmsIssueSchema);
 
 module.exports = { cmsIssuesData };

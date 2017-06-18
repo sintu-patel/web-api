@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var cmsIssuesData = require('../models/cmsIssuesModel').cmsIssuesData;
 
 exports.readData = function(req, res) {
-  const query = {};
+  const query = {isResolved: 'not-resolved'};
   cmsIssuesData.find(query, function(err, data) {
     if (err) {
       res.json({status: 'error while getting issues data'});
