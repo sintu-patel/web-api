@@ -14,7 +14,7 @@ exports.readData = function(req, res) {
       res.json({status: 'error while getting data'});
     }
     var tab = {
-      "data": data
+      "data": data.reverse()
     };
     res.json(tab);
   });
