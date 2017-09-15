@@ -46,7 +46,7 @@ var services = appenv.services;
 var mongodb_services = services["Compose for MongoDB-uf"];
 
 // This check ensures there is a services for MongoDB databases
-assert(!util.isUndefined(mongodb_services), "Must be bound to compose-for-mongodb services");
+// assert(!util.isUndefined(mongodb_services), "Must be bound to compose-for-mongodb services");
 
 // We now take the first bound MongoDB service and extract it's credentials object
 var credentials = mongodb_services[0].credentials;
