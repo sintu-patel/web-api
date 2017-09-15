@@ -4,20 +4,6 @@ var express = require('express'),
   mongoose = require('mongoose'),
   bodyParser = require('body-parser');
 
-var assert = require('assert');
-var fs = require('fs');
-var ca = [ fs.readFileSync(__dirname + "/servercert.crt") ];
-var options = {
-    mongos: {
-      ssl: true,
-      sslValidate: true,
-      sslCA: ca
-    }
-};
-
-var MONGODB_URL = 'mongodb://admin:JHLHGBETTDJGQHNS@sl-us-south-1-portal.8.dblayer.com:22286,sl-us-south-1-portal.6.dblayer.com:22286/admin?ssl=true';
-
-var apiConfig = require('./api-config');
 
 app.use(function(req, res, next) {
     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
@@ -27,10 +13,40 @@ app.use(function(req, res, next) {
     next();
 });
 
+var assert = require('assert');
+var MongoClient = require('mongodb').MongoClient;
+var fs = require('fs');
+var ca = [ fs.readFileSync("servercert.crt") ];
+var sslOptions = {
+  ssl: true,
+  sslValidate: true,
+  sslCA: ca,
+  ca: ca,
+  poolSize: 1,
+  reconnectTries: 1
+};
+var options = {
+    db: sslOptions,
+    mongos: sslOptions
+};
+
+var MONGODB_URL = 'mongodb://admin:JHLHGBETTDJGQHNS@sl-us-south-1-portal.8.dblayer.com:22286,sl-us-south-1-portal.6.dblayer.com:22286/admin?ssl=true';
+
+var ca = [ fs.readFileSync(__dirname + "/servercert.crt") ];
+
+var options = {
+    mongos: {
+      ssl: true,
+      sslValidate: true,
+      sslCA: ca
+    }
+}
+
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {
   console.log('Mongoose default connection error: ' + err);
 });
+
 mongoose.connection.on('open', function (err) {
     assert.equal(null, err);
     mongoose.connection.db.listCollections().toArray(function(err, collections) {
@@ -42,6 +58,7 @@ mongoose.connection.on('open', function (err) {
         process.exit(0);
     })
 });
+
 // Let's open that connection
 mongoose.connect(MONGODB_URL, options);
 
