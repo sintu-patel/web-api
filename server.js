@@ -6,14 +6,16 @@ var express = require('express'),
 
 var assert = require('assert');
 var fs = require('fs');
-// var ca = [ fs.readFileSync(__dirname + "/servercert.crt") ];
+var ca = [ fs.readFileSync(__dirname + "/servercert.crt") ];
 var options = {
     mongos: {
       ssl: true,
-      sslValidate: true
-      // sslCA: ca
+      sslValidate: true,
+      sslCA: ca
     }
-}  
+};
+
+var MONGODB_URL = 'mongodb://admin:JHLHGBETTDJGQHNS@sl-us-south-1-portal.8.dblayer.com:22286,sl-us-south-1-portal.6.dblayer.com:22286/admin?ssl=true';
 
 var apiConfig = require('./api-config');
 
@@ -41,7 +43,7 @@ mongoose.connection.on('open', function (err) {
     })
 });
 // Let's open that connection
-mongoose.connect(process.env.MONGODB_URL, options);
+mongoose.connect(MONGODB_URL, options);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
