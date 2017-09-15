@@ -1,7 +1,7 @@
 ---
 applications:
-- name:    compose-mongodb-helloworld-nodejs
-  host:    compose-mongodb-helloworld-nodejs
-  memory:  128M
+- name:    bmix-dal-yp-a5d8b130-d576-4c7c-9554-df8e17324324
+  host:    pipeline-x2.mybluemix.net
+  memory:  1G
   services:
-    - my-compose-for-mongodb-service
+    - MongoDB-uf
