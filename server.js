@@ -43,15 +43,6 @@ mongoose.connection.on('open', function (err) {
 // Let's open that connection
 mongoose.connect(process.env.MONGODB_URL, options);
 
-var db = mongoose.connection;
- 
-db.on('error', function (err) {
-console.log('connection error', err);
-});
-db.once('open', function () {
-console.log('connected.');
-});
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
  
