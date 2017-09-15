@@ -4,4 +4,4 @@ applications:
   host:    pipeline-x2
   memory:  1G
   services:
-    - compose-for-mongodb
+    - Compose for MongoDB-2k
