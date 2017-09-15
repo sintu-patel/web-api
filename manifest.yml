@@ -1,7 +1,0 @@
----
-applications:
-- name:    bmix-dal-yp-a5d8b130-d576-4c7c-9554-df8e17324324
-  host:    pipeline-x2
-  memory:  128M
-  services:
-    - Compose for MongoDB-uf
