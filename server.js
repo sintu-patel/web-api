@@ -6,12 +6,12 @@ var express = require('express'),
 
 var assert = require('assert');
 var fs = require('fs');
-var ca = [ fs.readFileSync(__dirname + "/servercert.crt") ];
+// var ca = [ fs.readFileSync(__dirname + "/servercert.crt") ];
 var options = {
     mongos: {
       ssl: true,
-      sslValidate: true,
-      sslCA: ca
+      sslValidate: true
+      // sslCA: ca
     }
 }  
 
