@@ -43,7 +43,7 @@ var appenv = cfenv.getAppEnv();
 var services = appenv.services;
 
 // The services object is a map named by service so we extract the one for MongoDB
-var mongodb_services = services["compose-for-mongodb"];
+var mongodb_services = services["Compose for MongoDB-uf"];
 
 // This check ensures there is a services for MongoDB databases
 assert(!util.isUndefined(mongodb_services), "Must be bound to compose-for-mongodb services");
