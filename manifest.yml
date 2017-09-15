@@ -4,4 +4,4 @@ applications:
   host:    pipeline-x2
   memory:  1G
   services:
-    - MongoDB-uf
+    - my-compose-for-mongodb-service
