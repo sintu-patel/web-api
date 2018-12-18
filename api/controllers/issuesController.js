@@ -49,3 +49,20 @@ exports.updateData = function(req, res) {
   cmsIssuesData.update(query, issuesData).exec();
   res.json({status: 'data-updated'});
 };
+
+exports.webhookPayload = function(req, res) {
+  var data = req.body;
+  var payload = data.payload;
+  payload = JSON.parse(payload);
+  var commits = payload.commits;
+  var pusher = payload.pusher;
+  var commitMessages = commits.map(function(commit) {
+    return commit.message;
+  });
+  var response = {
+    pusher: pusher,
+    commitMessages: commitMessages
+  };
+  console.log(response);
+  res.json({status: 'data-updated', data: response});
+}
