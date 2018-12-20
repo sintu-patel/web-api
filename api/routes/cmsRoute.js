@@ -14,4 +14,5 @@ module.exports = function(app) {
   app.route('/saveissuesdata').post(issueController.saveData);
   app.route('/updateissuesdata').post(issueController.updateData);
   app.route('/payload').post(issueController.webhookPayload);
+  app.route('/getwebhookdata').get(issueController.readWebHookData);
 }

@@ -1,6 +1,7 @@
 'use strict';
 var mongoose = require('mongoose');
 var cmsIssuesData = require('../models/cmsIssuesModel').cmsIssuesData;
+var webxtData = require('../models/webhookModal').webxtData;
 
 exports.readData = function(req, res) {
   const query = {isResolved: 'not-resolved'};
@@ -63,6 +64,37 @@ exports.webhookPayload = function(req, res) {
     pusher: pusher,
     commitMessages: commitMessages
   };
-  console.log(response);
-  res.json({status: 'data-updated', data: response});
+
+  var messages = response.commitMessages.toString();
+
+  const date = new Date();
+  var webxtDataObj = new webxtData({
+    name: response.pusher.name,
+    email: response.pusher.email,
+    message: messages,
+    date: date
+  });
+
+  console.log(response);;
+  webxtDataObj.save(function(err) {
+    if ( err ) { 
+      console.log('web hook data not saved');
+      res.json({status: 'web hook data not saved'});
+    }
+    console.log('web hook data saved');
+    res.json({status: 'web hook data saved'});
+  });
 }
+
+exports.readWebHookData = function(req, res) {
+  const query = {};
+  webxtData.find(query, function(err, data) {
+    if (err) {
+      res.json({status: 'error while getting webhook data'});
+    }
+    var tab = {
+      "pageData": data
+    };
+    res.json(tab);
+  });
+};
