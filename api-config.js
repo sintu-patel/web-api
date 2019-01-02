@@ -1,5 +1,7 @@
+require('dotenv').config();
+var dbPathURL = process.env.DB_URL;
 var apiConfig = {
-  dbPath: 'mongodb://localhost/CMS'
+  dbPath: dbPathURL
 }
 
 module.exports = apiConfig;

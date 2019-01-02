@@ -15,4 +15,6 @@ module.exports = function(app) {
   app.route('/updateissuesdata').post(issueController.updateData);
   app.route('/payload').post(issueController.webhookPayload);
   app.route('/getwebhookdata').get(issueController.readWebHookData);
+  app.route('/fromgooglecloud').post(issueController.fromGoogleCloud);
+  app.route('/ffapi').post(issueController.ffapi);
 }

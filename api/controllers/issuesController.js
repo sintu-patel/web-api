@@ -98,3 +98,15 @@ exports.readWebHookData = function(req, res) {
     res.json(tab);
   });
 };
+
+exports.fromGoogleCloud = function(req, res) {
+  const data = req.body;
+  console.log(data);
+  res.json('Got data');
+}
+
+exports.ffapi = function(req, res) {
+  const data = req.body;
+  console.log(data);
+  res.json('Got data');
+}
