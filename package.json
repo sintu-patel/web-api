@@ -13,7 +13,6 @@
   "author": "sintu singh",
   "license": "ISC",
   "devDependencies": {
-    "dotenv": "^6.2.0",
     "nodemon": "^1.11.0"
   },
   "dependencies": {

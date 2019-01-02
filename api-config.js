@@ -1,4 +1,3 @@
-require('dotenv').config();
 var dbPathURL = process.env.DB_URL;
 var apiConfig = {
   dbPath: dbPathURL
