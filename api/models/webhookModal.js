@@ -3,8 +3,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var webXTRepoAlertSchema = new Schema({
-    name: String,
-    email: String,
     message: String,
     date: String
 });

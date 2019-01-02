@@ -69,8 +69,6 @@ exports.webhookPayload = function(req, res) {
 
   const date = new Date();
   var webxtDataObj = new webxtData({
-    name: response.pusher.name,
-    email: response.pusher.email,
     message: messages,
     date: date
   });
