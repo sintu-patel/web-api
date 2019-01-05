@@ -4,7 +4,7 @@
   "description": "web-api-for-cms",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node set-env-config.js",
     "start": "nodemon server.js"
   },
   "keywords": [

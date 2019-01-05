@@ -1,7 +1,7 @@
 require('dotenv').config();
-var dbPathURL = process.env.DB_URL;
+var dbConfig = require('./db-config');
 var apiConfig = {
-  dbPath: dbPathURL
+  dbPath: dbConfig.DB_URL
 }
 
 module.exports = apiConfig;
