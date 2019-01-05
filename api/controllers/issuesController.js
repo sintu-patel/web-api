@@ -52,9 +52,8 @@ exports.updateData = function(req, res) {
 };
 
 exports.webhookPayload = function(req, res) {
-  var data = req.body;
-  var payload = data.payload;
-  payload = JSON.parse(payload);
+  var payload = req.body;
+  console.log(payload);
   var commits = payload.commits;
   var pusher = payload.pusher;
   var commitMessages = commits.map(function(commit) {
