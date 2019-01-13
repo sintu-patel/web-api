@@ -32,7 +32,10 @@ router.post('/login', function(req, res) {
     });
 
     // return the information including token as JSON
-    res.status(200).send({ auth: true, token: token });
+    res.set({
+      'x-access-token': token
+    })
+    res.status(200).send({ auth: true, 'x-access-token': token  });
   });
 
 });
@@ -64,12 +67,12 @@ router.post('/register', function(req, res) {
 
 });
 
-router.get('/me', VerifyToken, function(req, res, next) {
+router.post('/check-login', VerifyToken, function(req, res, next) {
 
   User.findById(req.userId, { password: 0 }, function (err, user) {
-    if (err) return res.status(500).send("There was a problem finding the user.");
-    if (!user) return res.status(404).send("No user found.");
-    res.status(200).send(user);
+    if (err) return res.status(500).send({auth: false});
+    if (!user) return res.status(404).send({auth: false});
+    res.status(200).send({auth: true});
   });
 
 });
