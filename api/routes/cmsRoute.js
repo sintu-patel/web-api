@@ -2,6 +2,7 @@
 module.exports = function(app) {
   var cmsController = require('../controllers/cmsController');
   var issueController = require('../controllers/issuesController');
+  var AuthController = require('../jwt/auth/AuthController');
   app.route('/cms').get(cmsController.readData);
   app.route('/savecms').post(cmsController.saveData);
   app.route('/savefiledata').post(cmsController.saveFileData);
@@ -17,4 +18,5 @@ module.exports = function(app) {
   app.route('/getwebhookdata').get(issueController.readWebHookData);
   app.route('/fromgooglecloud').post(issueController.fromGoogleCloud);
   app.route('/ffapi').post(issueController.ffapi);
+  app.use('/api/auth', AuthController);
 }
